@@ -97,3 +97,8 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# --- Ozel Buyuk Dosya Engelleme ---
+*.hdr
+/[Aa]ssets/Resources/Environments/
+# ---------------------------------
