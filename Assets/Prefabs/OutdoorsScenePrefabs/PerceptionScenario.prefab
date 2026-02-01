@@ -1,0 +1,269 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4826005846253502665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7368534832171840911}
+  - component: {fileID: 5410182099698278935}
+  m_Layer: 0
+  m_Name: PerceptionScenario
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7368534832171840911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4826005846253502665}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.6814537, y: 17.3, z: 3.918312}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5410182099698278935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4826005846253502665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d50076aff0af4515b4422166496fdd5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Randomizers:
+  - rid: 1566243788938280960
+  - rid: 1566243788938280967
+  - rid: 1566243828077953024
+  - rid: 9049962759018512384
+  configuration: {fileID: 0}
+  constants:
+    randomSeed: 539662031
+    startIteration: 0
+    iterationCount: 1000
+    totalIterations: 100
+    instanceCount: 1
+    instanceIndex: 0
+  framesPerIteration: 1
+  m_ProgressPercentage: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 1566243788938280960
+      type: {class: CameraAngleRandomizer, ns: , asm: Assembly-CSharp}
+      data:
+        m_Enabled: 1
+        collapsed: 1
+        <enabledStateCanBeSwitchedByUser>k__BackingField: 1
+        rotX:
+          collapsed: 0
+          value:
+            rid: 1566243826964627456
+        rotY:
+          collapsed: 0
+          value:
+            rid: 1566243826964627457
+        rotZ:
+          collapsed: 0
+          value:
+            rid: 1566243826964627458
+    - rid: 1566243788938280967
+      type: {class: LightRandomizer, ns: , asm: Assembly-CSharp}
+      data:
+        m_Enabled: 1
+        collapsed: 1
+        <enabledStateCanBeSwitchedByUser>k__BackingField: 1
+        lightObj: {fileID: 0}
+        intensity:
+          collapsed: 0
+          value:
+            rid: 1566243788938280968
+        rotX:
+          collapsed: 0
+          value:
+            rid: 1566243788938280969
+        rotY:
+          collapsed: 0
+          value:
+            rid: 1566243788938280970
+        rotZ:
+          collapsed: 0
+          value:
+            rid: 1566243788938280971
+    - rid: 1566243788938280968
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: 100
+          maximum: 80000
+        <minAllowed>k__BackingField: 0
+        <maxAllowed>k__BackingField: 0
+        <shouldCheckValidRange>k__BackingField: 0
+    - rid: 1566243788938280969
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: 15
+          maximum: 90
+        <minAllowed>k__BackingField: 0
+        <maxAllowed>k__BackingField: 0
+        <shouldCheckValidRange>k__BackingField: 0
+    - rid: 1566243788938280970
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: 0
+          maximum: 1
+        <minAllowed>k__BackingField: 0
+        <maxAllowed>k__BackingField: 0
+        <shouldCheckValidRange>k__BackingField: 0
+    - rid: 1566243788938280971
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: 0
+          maximum: 1
+        <minAllowed>k__BackingField: 0
+        <maxAllowed>k__BackingField: 0
+        <shouldCheckValidRange>k__BackingField: 0
+    - rid: 1566243826964627456
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: -10
+          maximum: 10
+        <minAllowed>k__BackingField: 0
+        <maxAllowed>k__BackingField: 0
+        <shouldCheckValidRange>k__BackingField: 0
+    - rid: 1566243826964627457
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: -40
+          maximum: 40
+        <minAllowed>k__BackingField: 0
+        <maxAllowed>k__BackingField: 0
+        <shouldCheckValidRange>k__BackingField: 0
+    - rid: 1566243826964627458
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: -5
+          maximum: 5
+        <minAllowed>k__BackingField: 0
+        <maxAllowed>k__BackingField: 0
+        <shouldCheckValidRange>k__BackingField: 0
+    - rid: 1566243828077953024
+      type: {class: BalloonRandomizer, ns: , asm: Assembly-CSharp}
+      data:
+        m_Enabled: 1
+        collapsed: 0
+        <enabledStateCanBeSwitchedByUser>k__BackingField: 1
+        balloonPrefabs:
+        - {fileID: 549046250028847693, guid: 4a2d6fb3f9b93a346b1e1fc1ae7dbd05, type: 3}
+        - {fileID: 3436733691025090758, guid: cef09d9611e800f4eb4533af3feaf5b6, type: 3}
+        - {fileID: 5349378205140266027, guid: bf29d28e907f7484db745bbf80990d4e, type: 3}
+        - {fileID: 3676919075081331274, guid: dc371010ff093fd40bc43a2d3a71e99f, type: 3}
+        - {fileID: 5495503677328490381, guid: 06b43e5adedb4224fbd0963408cf83fc, type: 3}
+        - {fileID: 8453938393194696079, guid: f8971c16705756c46b770d29f71bf7e1, type: 3}
+        minCount: 0
+        maxCount: 5
+        spawnDistMin: 20
+        spawnDistMax: 60
+        scaleMin: 100
+        scaleMax: 400
+        parentColors:
+          serializedVersion: 2
+          key0: {r: 1, g: 0.8509433, b: 0.8509433, a: 1}
+          key1: {r: 1, g: 0.91132075, b: 0.9261006, a: 1}
+          key2: {r: 0.6546458, g: 0.6317195, b: 0.6603774, a: 0}
+          key3: {r: 0.73315054, g: 0.75376135, b: 0.9547169, a: 0}
+          key4: {r: 0.7070202, g: 0.70870954, b: 0.7509433, a: 0}
+          key5: {r: 0.7687891, g: 0.74001426, b: 0.7735849, a: 0}
+          key6: {r: 0.8207547, g: 1, b: 0.83692193, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 386
+          ctime1: 8250
+          ctime2: 17502
+          ctime3: 33076
+          ctime4: 40015
+          ctime5: 58982
+          ctime6: 63145
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_ColorSpace: -1
+          m_NumColorKeys: 7
+          m_NumAlphaKeys: 2
+        childColors:
+          serializedVersion: 2
+          key0: {r: 1, g: 0, b: 0, a: 1}
+          key1: {r: 0, g: 0.090051174, b: 1, a: 1}
+          key2: {r: 0, g: 1, b: 0.08959627, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 33076
+          ctime2: 65535
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_ColorSpace: -1
+          m_NumColorKeys: 3
+          m_NumAlphaKeys: 2
+        childObjectName: WhiteBaloon
+        radiusCorrection: 0.05
+        separationPadding: 1.1
+        minRotationX: -200
+        maxRotationX: -150
+        minRotationY: -40
+        maxRotationY: 40
+    - rid: 9049962759018512384
+      type: {class: HDRISkyRandomizer, ns: , asm: Assembly-CSharp}
+      data:
+        m_Enabled: 1
+        collapsed: 1
+        <enabledStateCanBeSwitchedByUser>k__BackingField: 1
+        hdriFolderPath: Assets/Resources/Environments
+        globalVolume: {fileID: 0}
