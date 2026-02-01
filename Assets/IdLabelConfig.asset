@@ -13,38 +13,26 @@ MonoBehaviour:
   m_Name: IdLabelConfig
   m_EditorClassIdentifier: 
   m_LabelEntries:
-  - label: BlueBalloon
+  - label: F-16
     id: 1
     hierarchyRelation: 0
-  - label: BlueCircleBalloon
+  - label: Drone
     id: 2
     hierarchyRelation: 0
-  - label: BlueSquareBalloon
+  - label: Helicopter
     id: 3
     hierarchyRelation: 0
-  - label: BlueTriangleBalloon
+  - label: Ally-plane
     id: 4
     hierarchyRelation: 0
-  - label: GreenCircleBalloon
+  - label: UAV
     id: 5
     hierarchyRelation: 0
-  - label: GreenSquareBalloon
+  - label: Rocket
     id: 6
     hierarchyRelation: 0
-  - label: GreenTriangleBalloon
+  - label: Balloon
     id: 7
-    hierarchyRelation: 0
-  - label: RedBalloon
-    id: 8
-    hierarchyRelation: 0
-  - label: RedCircleBalloon
-    id: 9
-    hierarchyRelation: 0
-  - label: RedSquareBalloon
-    id: 10
-    hierarchyRelation: 0
-  - label: RedTriangleBalloon
-    id: 11
     hierarchyRelation: 0
   autoAssignIds: 1
   startingLabelId: 1
