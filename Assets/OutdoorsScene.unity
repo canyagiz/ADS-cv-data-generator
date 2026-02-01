@@ -347,6 +347,11 @@ PrefabInstance:
       objectReference: {fileID: 157207112}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
+      propertyPath: managedReferences[1566243828077953024].collapsed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
+        type: 3}
       propertyPath: managedReferences[9049962759018512384].globalVolume
       value: 
       objectReference: {fileID: 432432460}
