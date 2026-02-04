@@ -48,6 +48,49 @@ public class BalloonRandomizer : Randomizer
     public float minRotationY = 0f;
     public float maxRotationY = 360f;
 
+    [Header("Material Randomization - Parent (Aircraft)")]
+    [Tooltip("Enable material property randomization for parent objects (aircraft).")]
+    public bool enableParentMaterialRandomization = false;
+    
+    [Tooltip("Use white-ish tones for parent objects (simulates real competition models).")]
+    public bool parentUseWhiteTones = true;
+    
+    [Tooltip("Minimum roughness for parent material (0=shiny, 1=matte).")]
+    [Range(0f, 1f)]
+    public float parentRoughnessMin = 0.3f;
+    
+    [Tooltip("Maximum roughness for parent material.")]
+    [Range(0f, 1f)]
+    public float parentRoughnessMax = 0.7f;
+    
+    [Tooltip("Minimum metallic value for parent (0=plastic, 1=metal).")]
+    [Range(0f, 1f)]
+    public float parentMetallicMin = 0.0f;
+    
+    [Tooltip("Maximum metallic value for parent.")]
+    [Range(0f, 1f)]
+    public float parentMetallicMax = 0.2f;
+
+    [Header("Material Randomization - Balloon")]
+    [Tooltip("Enable material property randomization for balloons.")]
+    public bool enableBalloonMaterialRandomization = false;
+    
+    [Tooltip("Minimum roughness for balloon material.")]
+    [Range(0f, 1f)]
+    public float balloonRoughnessMin = 0.4f;
+    
+    [Tooltip("Maximum roughness for balloon material.")]
+    [Range(0f, 1f)]
+    public float balloonRoughnessMax = 0.8f;
+    
+    [Tooltip("Minimum metallic value for balloon.")]
+    [Range(0f, 1f)]
+    public float balloonMetallicMin = 0.0f;
+    
+    [Tooltip("Maximum metallic value for balloon.")]
+    [Range(0f, 1f)]
+    public float balloonMetallicMax = 0.1f;
+
     private Camera cam;
 
     /// <summary>
@@ -65,6 +108,13 @@ public class BalloonRandomizer : Randomizer
     
     // List to keep track of actual GameObjects to destroy them in the next iteration
     List<GameObject> spawned = new List<GameObject>();
+    
+    // List to track dynamically created materials for proper cleanup (prevents VRAM leaks)
+    List<Material> createdMaterials = new List<Material>();
+    
+    // Counter for periodic garbage collection
+    private int iterationCount = 0;
+    private const int GC_INTERVAL = 50; // Run garbage collection every N iterations
 
     /// <summary>
     /// Called when the Randomization Scenario begins.
@@ -72,6 +122,7 @@ public class BalloonRandomizer : Randomizer
     protected override void OnScenarioStart()
     {
         cam = Camera.main;
+        iterationCount = 0;
     }
 
     /// <summary>
@@ -80,7 +131,14 @@ public class BalloonRandomizer : Randomizer
     /// </summary>
     protected override void OnIterationStart()
     {
-        // 1. Cleanup: Destroy objects from the previous iteration
+        // 1. Cleanup: Destroy dynamically created materials first (prevents VRAM leaks)
+        foreach (var mat in createdMaterials)
+        {
+            if (mat != null) Object.Destroy(mat);
+        }
+        createdMaterials.Clear();
+        
+        // 2. Cleanup: Destroy GameObjects from the previous iteration
         foreach (var b in spawned)
         {
             if (b != null) GameObject.Destroy(b);
@@ -88,9 +146,17 @@ public class BalloonRandomizer : Randomizer
         spawned.Clear();
         used.Clear();
 
+        // 3. Periodic garbage collection to free up memory during long simulations
+        iterationCount++;
+        if (iterationCount % GC_INTERVAL == 0)
+        {
+            Resources.UnloadUnusedAssets();
+            System.GC.Collect();
+        }
+
         if (cam == null) cam = Camera.main;
 
-        // 2. Spawning Logic
+        // 4. Spawning Logic
         foreach (var prefab in balloonPrefabs)
         {
             int count = Random.Range(minCount, maxCount + 1);
@@ -181,27 +247,76 @@ public class BalloonRandomizer : Randomizer
             float rotY = Random.Range(minRotationY, maxRotationY);
             balloon.transform.rotation = Quaternion.Euler(rotX, rotY, 0f);
 
+
             // ---------------------------------------------------------
-            // COLOR RANDOMIZATION LOGIC
+            // COLOR & MATERIAL RANDOMIZATION LOGIC
+            // Note: Accessing .material creates a new instance. We track these
+            // in createdMaterials list for proper cleanup to prevent VRAM leaks.
             // ---------------------------------------------------------
 
-            // 1. Apply Color to Parent (e.g., Ally-plane body)
+            // 1. Apply Color and Material to Parent (e.g., Ally-plane body)
             Renderer parentRenderer = balloon.GetComponent<Renderer>();
             if (parentRenderer != null)
             {
-                // Evaluate() picks a color from the gradient based on a 0.0-1.0 float value
-                parentRenderer.material.color = parentColors.Evaluate(Random.value);
+                Material parentMat = parentRenderer.material;
+                
+                // Color: Use white-ish tones if enabled, otherwise use gradient
+                if (parentUseWhiteTones)
+                {
+                    // Generate white-ish color: high RGB values with slight variation
+                    float baseWhite = Random.Range(0.85f, 1.0f);
+                    float rVariation = Random.Range(-0.05f, 0.05f);
+                    float gVariation = Random.Range(-0.05f, 0.05f);
+                    float bVariation = Random.Range(-0.05f, 0.05f);
+                    parentMat.color = new Color(
+                        Mathf.Clamp01(baseWhite + rVariation),
+                        Mathf.Clamp01(baseWhite + gVariation),
+                        Mathf.Clamp01(baseWhite + bVariation)
+                    );
+                }
+                else
+                {
+                    parentMat.color = parentColors.Evaluate(Random.value);
+                }
+                
+                // Material properties (if enabled)
+                if (enableParentMaterialRandomization)
+                {
+                    // Smoothness (inverse of roughness) - HDRP uses _Smoothness
+                    float roughness = Random.Range(parentRoughnessMin, parentRoughnessMax);
+                    parentMat.SetFloat("_Smoothness", 1f - roughness);
+                    
+                    // Metallic
+                    float metallic = Random.Range(parentMetallicMin, parentMetallicMax);
+                    parentMat.SetFloat("_Metallic", metallic);
+                }
+                
+                createdMaterials.Add(parentMat);
             }
 
-            // 2. Apply Color to Child (e.g., WhiteBaloon)
+            // 2. Apply Color and Material to Child (e.g., WhiteBaloon)
             Transform childTransform = balloon.transform.Find(childObjectName);
             if (childTransform != null)
             {
                 Renderer childRenderer = childTransform.GetComponent<Renderer>();
                 if (childRenderer != null)
                 {
-                    // Pick a different random color for the child part
-                    childRenderer.material.color = childColors.Evaluate(Random.value);
+                    Material childMat = childRenderer.material;
+                    
+                    // Balloon gets full color variety
+                    childMat.color = childColors.Evaluate(Random.value);
+                    
+                    // Material properties (if enabled)
+                    if (enableBalloonMaterialRandomization)
+                    {
+                        float roughness = Random.Range(balloonRoughnessMin, balloonRoughnessMax);
+                        childMat.SetFloat("_Smoothness", 1f - roughness);
+                        
+                        float metallic = Random.Range(balloonMetallicMin, balloonMetallicMax);
+                        childMat.SetFloat("_Metallic", metallic);
+                    }
+                    
+                    createdMaterials.Add(childMat);
                 }
             }
             // ---------------------------------------------------------
@@ -231,5 +346,44 @@ public class BalloonRandomizer : Randomizer
                 return true;
         }
         return false;
+    }
+
+    /// <summary>
+    /// Called when the simulation scenario completes.
+    /// Performs final cleanup of all spawned objects and materials.
+    /// </summary>
+    protected override void OnScenarioComplete()
+    {
+        CleanupAll();
+    }
+
+    protected override void OnDestroy()
+    {
+        CleanupAll();
+    }
+
+    /// <summary>
+    /// Cleans up all spawned objects and materials to prevent memory leaks.
+    /// </summary>
+    private void CleanupAll()
+    {
+        // Destroy all tracked materials
+        foreach (var mat in createdMaterials)
+        {
+            if (mat != null) Object.Destroy(mat);
+        }
+        createdMaterials.Clear();
+
+        // Destroy all spawned GameObjects
+        foreach (var b in spawned)
+        {
+            if (b != null) GameObject.Destroy(b);
+        }
+        spawned.Clear();
+        used.Clear();
+
+        // Final garbage collection
+        Resources.UnloadUnusedAssets();
+        System.GC.Collect();
     }
 }
