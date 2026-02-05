@@ -343,7 +343,12 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: constants.iterationCount
-      value: 10000
+      value: 20001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
+        type: 3}
+      propertyPath: constants.startIteration
+      value: 10001
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -658,7 +663,7 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[1566243828077953024].collapsed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -688,22 +693,32 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[1566243828077953024].maxRotationX
-      value: 90
+      value: 290
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[1566243828077953024].maxRotationY
-      value: 90
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
+        type: 3}
+      propertyPath: managedReferences[1566243828077953024].maxRotationZ
+      value: 110
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[1566243828077953024].minRotationX
-      value: -90
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[1566243828077953024].minRotationY
-      value: -90
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
+        type: 3}
+      propertyPath: managedReferences[1566243828077953024].minRotationZ
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
