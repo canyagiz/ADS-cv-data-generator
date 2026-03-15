@@ -2,11 +2,11 @@
 using UnityEngine;
 using UnityEngine.Perception.Randomization.Randomizers;
 
-[AddComponentMenu("Perception/Randomizers/Balloon Randomizer")]
-public class BalloonRandomizer : Randomizer
+[AddComponentMenu("Perception/Randomizers/Model Randomizer")]
+public class ModelRandomizer : Randomizer
 {
-    [Tooltip("The list of prefabs (e.g., planes/balloons) to spawn randomly.")]
-    public GameObject[] balloonPrefabs;
+    [Tooltip("The list of prefabs (e.g., planes/Models) to spawn randomly.")]
+    public GameObject[] ModelPrefabs;
 
     [Header("Spawn Settings")]
     [Tooltip("Minimum number of objects to spawn per iteration.")]
@@ -28,7 +28,7 @@ public class BalloonRandomizer : Randomizer
     [Tooltip("Gradient palette for the Parent object (e.g., the plane fuselage). A random color from this gradient will be picked.")]
     public Gradient parentColors;
 
-    [Tooltip("Gradient palette for the Child object (e.g., the balloon). A random color from this gradient will be picked.")]
+    [Tooltip("Gradient palette for the Child object (e.g., the Model). A random color from this gradient will be picked.")]
     public Gradient childColors;
 
     [Tooltip("Exact name of the child object in the hierarchy (e.g., 'WhiteBaloon') to apply the child color to.")]
@@ -78,35 +78,35 @@ public class BalloonRandomizer : Randomizer
     [Range(0f, 1f)]
     public float parentMetallicMax = 0.2f;
 
-    [Header("Material Randomization - Balloon")]
-    [Tooltip("Enable material property randomization for balloons.")]
-    public bool enableBalloonMaterialRandomization = false;
+    [Header("Material Randomization - Model")]
+    [Tooltip("Enable material property randomization for Models.")]
+    public bool enableModelMaterialRandomization = false;
 
-    [Tooltip("Minimum roughness for balloon material.")]
+    [Tooltip("Minimum roughness for Model material.")]
     [Range(0f, 1f)]
-    public float balloonRoughnessMin = 0.4f;
+    public float ModelRoughnessMin = 0.4f;
 
-    [Tooltip("Maximum roughness for balloon material.")]
+    [Tooltip("Maximum roughness for Model material.")]
     [Range(0f, 1f)]
-    public float balloonRoughnessMax = 0.8f;
+    public float ModelRoughnessMax = 0.8f;
 
-    [Tooltip("Minimum metallic value for balloon.")]
+    [Tooltip("Minimum metallic value for Model.")]
     [Range(0f, 1f)]
-    public float balloonMetallicMin = 0.0f;
+    public float ModelMetallicMin = 0.0f;
 
-    [Tooltip("Maximum metallic value for balloon.")]
+    [Tooltip("Maximum metallic value for Model.")]
     [Range(0f, 1f)]
-    public float balloonMetallicMax = 0.1f;
+    public float ModelMetallicMax = 0.1f;
 
     private Camera cam;
 
-    class SpawnedBalloon
+    class SpawnedModel
     {
         public Vector2 screenPos;
         public float screenRadius;
     }
 
-    List<SpawnedBalloon> used = new List<SpawnedBalloon>();
+    List<SpawnedModel> used = new List<SpawnedModel>();
     List<GameObject> spawned = new List<GameObject>();
     List<Material> createdMaterials = new List<Material>();
 
@@ -143,14 +143,14 @@ public class BalloonRandomizer : Randomizer
 
         if (cam == null) cam = Camera.main;
 
-        foreach (var prefab in balloonPrefabs)
+        foreach (var prefab in ModelPrefabs)
         {
             int count = Random.Range(minCount, maxCount + 1);
             int fails = 0;
 
             for (int i = 0; i < count; i++)
             {
-                if (!SpawnBalloon(prefab))
+                if (!SpawnModel(prefab))
                 {
                     fails++;
                     if (fails > 20) break;
@@ -159,7 +159,7 @@ public class BalloonRandomizer : Randomizer
         }
     }
 
-    bool SpawnBalloon(GameObject prefab)
+    bool SpawnModel(GameObject prefab)
     {
         float scale = Random.Range(scaleMin, scaleMax);
         float worldRadius = 0.5f * scale * radiusCorrection;
@@ -198,11 +198,11 @@ public class BalloonRandomizer : Randomizer
 
         if (positionFound)
         {
-            used.Add(new SpawnedBalloon { screenPos = screenPos, screenRadius = screenRadius });
+            used.Add(new SpawnedModel { screenPos = screenPos, screenRadius = screenRadius });
 
-            GameObject balloon = GameObject.Instantiate(prefab, worldPos, Quaternion.identity);
+            GameObject Model = GameObject.Instantiate(prefab, worldPos, Quaternion.identity);
 
-            balloon.transform.localScale = Vector3.one * scale;
+            Model.transform.localScale = Vector3.one * scale;
 
             // ---------------------------------------------------------
             // GÜNCELLENMİŞ ROTASYON MANTIĞI (X, Y ve Z)
@@ -211,10 +211,10 @@ public class BalloonRandomizer : Randomizer
             float rotY = Random.Range(minRotationY, maxRotationY);
             float rotZ = Random.Range(minRotationZ, maxRotationZ); // Z Eklendi
 
-            balloon.transform.rotation = Quaternion.Euler(rotX, rotY, rotZ);
+            Model.transform.rotation = Quaternion.Euler(rotX, rotY, rotZ);
             // ---------------------------------------------------------
 
-            Renderer parentRenderer = balloon.GetComponent<Renderer>();
+            Renderer parentRenderer = Model.GetComponent<Renderer>();
             if (parentRenderer != null)
             {
                 Material parentMat = parentRenderer.material;
@@ -248,7 +248,7 @@ public class BalloonRandomizer : Randomizer
                 createdMaterials.Add(parentMat);
             }
 
-            Transform childTransform = balloon.transform.Find(childObjectName);
+            Transform childTransform = Model.transform.Find(childObjectName);
             if (childTransform != null)
             {
                 Renderer childRenderer = childTransform.GetComponent<Renderer>();
@@ -257,12 +257,12 @@ public class BalloonRandomizer : Randomizer
                     Material childMat = childRenderer.material;
                     childMat.color = childColors.Evaluate(Random.value);
 
-                    if (enableBalloonMaterialRandomization)
+                    if (enableModelMaterialRandomization)
                     {
-                        float roughness = Random.Range(balloonRoughnessMin, balloonRoughnessMax);
+                        float roughness = Random.Range(ModelRoughnessMin, ModelRoughnessMax);
                         childMat.SetFloat("_Smoothness", 1f - roughness);
 
-                        float metallic = Random.Range(balloonMetallicMin, balloonMetallicMax);
+                        float metallic = Random.Range(ModelMetallicMin, ModelMetallicMax);
                         childMat.SetFloat("_Metallic", metallic);
                     }
 
@@ -270,7 +270,7 @@ public class BalloonRandomizer : Randomizer
                 }
             }
 
-            spawned.Add(balloon);
+            spawned.Add(Model);
             return true;
         }
 
