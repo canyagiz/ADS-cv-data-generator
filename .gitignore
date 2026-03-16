@@ -101,4 +101,7 @@ InitTestScene*.unity*
 # --- Ozel Buyuk Dosya Engelleme ---
 *.hdr
 /[Aa]ssets/Resources/Environments/
+/[Aa]ssets/Resources/Textures/
+/[Aa]ssets/Resources/Materials/
+/[Aa]ssets/Resources/Models/
 # ---------------------------------

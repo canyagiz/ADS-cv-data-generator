@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3992102862512198777}
   - component: {fileID: 3210990925042616722}
   - component: {fileID: -7055012209820297087}
+  - component: {fileID: 5577792785582353523}
   m_Layer: 0
   m_Name: WhiteBaloon
   m_TagString: Untagged
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7328e2711481662418b2cdfff1a1a4fb, type: 2}
+  - {fileID: 2100000, guid: 52e1b8bc66b500e4b84d7e043a463e7c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -123,3 +124,15 @@ MonoBehaviour:
   - Balloon
   useAutoLabeling: 0
   autoLabelingSchemeType: 
+--- !u!114 &5577792785582353523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4973667078808936633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9546a8975fe4783ac74e987ecca9635, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

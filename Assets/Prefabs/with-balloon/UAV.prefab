@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: 52e1b8bc66b500e4b84d7e043a463e7c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,10 +109,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 313160725989123508}
     m_Modifications:
+    - target: {fileID: 3992102862512198777, guid: e861202e78af93945bdff25690f521da,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 52e1b8bc66b500e4b84d7e043a463e7c, type: 2}
     - target: {fileID: 4973667078808936633, guid: e861202e78af93945bdff25690f521da,
         type: 3}
       propertyPath: m_Name
       value: WhiteBaloon
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973667078808936633, guid: e861202e78af93945bdff25690f521da,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8033172782492047667, guid: e861202e78af93945bdff25690f521da,
         type: 3}

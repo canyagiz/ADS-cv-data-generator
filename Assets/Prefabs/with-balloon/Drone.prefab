@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6150938645281777838}
   - component: {fileID: 7143700084179043297}
   - component: {fileID: -8074460344435627568}
+  - component: {fileID: 2304131268104549085}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Untagged
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: 52e1b8bc66b500e4b84d7e043a463e7c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -101,6 +102,18 @@ MonoBehaviour:
   - Drone
   useAutoLabeling: 0
   autoLabelingSchemeType: 
+--- !u!114 &2304131268104549085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3436733691025090758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9546a8975fe4783ac74e987ecca9635, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8189735956623507582
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,6 +122,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6502145882548855551}
     m_Modifications:
+    - target: {fileID: 3992102862512198777, guid: e861202e78af93945bdff25690f521da,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 52e1b8bc66b500e4b84d7e043a463e7c, type: 2}
     - target: {fileID: 4973667078808936633, guid: e861202e78af93945bdff25690f521da,
         type: 3}
       propertyPath: m_Name
