@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Perception.Randomization.Randomizers;
 
@@ -200,18 +200,25 @@ public class ModelRandomizer : Randomizer
         {
             used.Add(new SpawnedModel { screenPos = screenPos, screenRadius = screenRadius });
 
-            GameObject Model = GameObject.Instantiate(prefab, worldPos, Quaternion.identity);
+            // Spawn with the prefab's own rotation preserved (e.g., X=-90 Y=90 for upright models)
+            GameObject Model = GameObject.Instantiate(prefab, worldPos, prefab.transform.rotation);
 
             Model.transform.localScale = Vector3.one * scale;
 
             // ---------------------------------------------------------
-            // GÜNCELLENMİŞ ROTASYON MANTIĞI (X, Y ve Z)
+            // ROTASYON MANTIĞI: Rastgele rotasyon, prefab'ın base euler açılarına doğrudan EKLENİR
             // ---------------------------------------------------------
             float rotX = Random.Range(minRotationX, maxRotationX);
             float rotY = Random.Range(minRotationY, maxRotationY);
-            float rotZ = Random.Range(minRotationZ, maxRotationZ); // Z Eklendi
+            float rotZ = Random.Range(minRotationZ, maxRotationZ);
 
-            Model.transform.rotation = Quaternion.Euler(rotX, rotY, rotZ);
+            // Prefab'ın base euler açılarını al ve rastgele değerleri üzerine topla
+            Vector3 baseEuler = prefab.transform.eulerAngles;
+            Model.transform.rotation = Quaternion.Euler(
+                baseEuler.x + rotX,
+                baseEuler.y + rotY,
+                baseEuler.z + rotZ
+            );
             // ---------------------------------------------------------
 
             Renderer parentRenderer = Model.GetComponent<Renderer>();
