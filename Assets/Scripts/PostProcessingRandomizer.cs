@@ -47,6 +47,9 @@ public class PostProcessingRandomizer : Randomizer
     public PerceptionFloat vignetteIntensity;
 
     [Header("Exposure")]
+    [Tooltip("Uncheck to disable exposure randomization entirely and let the Volume's own Exposure value stay fixed.")]
+    public bool randomizeExposure = true;
+
     [Tooltip("Fixed exposure value (EV): typical outdoor range 10-15")]
     public PerceptionFloat exposureValue;
 
@@ -88,7 +91,7 @@ public class PostProcessingRandomizer : Randomizer
         chromaticIntensity = new PerceptionFloat { value = new UnityEngine.Perception.Randomization.Samplers.UniformSampler(0f, 0.2f) };
         lensDistortionIntensity = new PerceptionFloat { value = new UnityEngine.Perception.Randomization.Samplers.UniformSampler(-0.12f, 0.12f) };
         vignetteIntensity = new PerceptionFloat { value = new UnityEngine.Perception.Randomization.Samplers.UniformSampler(0f, 0.3f) };
-        exposureValue = new PerceptionFloat { value = new UnityEngine.Perception.Randomization.Samplers.UniformSampler(11f, 15f) };
+        exposureValue = new PerceptionFloat { value = new UnityEngine.Perception.Randomization.Samplers.UniformSampler(13f, 17f) };
         whiteBalanceTemperature = new PerceptionFloat { value = new UnityEngine.Perception.Randomization.Samplers.UniformSampler(-18f, 18f) };
         saturation = new PerceptionFloat { value = new UnityEngine.Perception.Randomization.Samplers.UniformSampler(-12f, 12f) };
         contrast = new PerceptionFloat { value = new UnityEngine.Perception.Randomization.Samplers.UniformSampler(-10f, 10f) };
@@ -205,8 +208,9 @@ public class PostProcessingRandomizer : Randomizer
             m_Vignette.intensity.value = vigValue;
         }
 
-        // Exposure
-        if (m_Exposure != null)
+        // Exposure — only runs if randomizeExposure is enabled in Inspector.
+        // Uncheck 'Randomize Exposure' to keep the Volume's fixed value untouched.
+        if (randomizeExposure && m_Exposure != null)
         {
             m_Exposure.active = true;
             m_Exposure.mode.overrideState = true;

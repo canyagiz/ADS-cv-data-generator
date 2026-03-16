@@ -343,12 +343,12 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: constants.iterationCount
-      value: 20001
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: constants.startIteration
-      value: 10001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -693,7 +693,7 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[951100746037723173].collapsed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -718,7 +718,7 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[3679072889937592320].collapsed
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -739,6 +739,11 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[9049962759018512384].collapsed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
+        type: 3}
+      propertyPath: managedReferences[951100746037723173].minExposure
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -1238,12 +1243,12 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[951100746037723180].range.maximum
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[951100746037723180].range.minimum
-      value: 11
+      value: 85
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -1284,6 +1289,21 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[951100746037723184].range.minimum
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
+        type: 3}
+      propertyPath: managedReferences[1566243788938280968].range.minimum
+      value: 4000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
+        type: 3}
+      propertyPath: managedReferences[1566243788938280969].range.maximum
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
+        type: 3}
+      propertyPath: managedReferences[1566243788938280969].range.minimum
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -1349,6 +1369,11 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[3679072889937592320].radiusCorrection
       value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
+        type: 3}
+      propertyPath: managedReferences[951100746037723173].randomizeExposure
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
