@@ -34,13 +34,9 @@ public class ModelRandomizer : Randomizer
     [Tooltip("Exact name of the child object in the hierarchy (e.g., 'WhiteBaloon') to apply the child color to.")]
     public string childObjectName = "WhiteBaloon";
 
-    [Header("Math Fix / Collision Tuning")]
-    [Tooltip("Correction factor for the radius calculation. Since the scale is very large (120+), use a small value (e.g., 0.05) to prevent the collision circles from being too large.")]
-    [Range(0.001f, 1f)]
-    public float radiusCorrection = 0.05f;
-
-    [Tooltip("Separation padding between objects. 1.0 means objects can touch; >1.0 requires more space; <1.0 allows slight overlap.")]
-    public float separationPadding = 0.9f;
+    [Header("Overlap Tuning")]
+    [Tooltip("Separation padding between objects based on actual screen-space bounding boxes. 1.0 = rects must not overlap; >1.0 = requires gap (recommended 1.1-1.3); <1.0 = allows slight overlap.")]
+    public float separationPadding = 1.1f;
 
     [Header("Rotation Settings")]
     public float minRotationX = 0f;
@@ -102,8 +98,7 @@ public class ModelRandomizer : Randomizer
 
     class SpawnedModel
     {
-        public Vector2 screenPos;
-        public float screenRadius;
+        public Rect screenRect;
     }
 
     List<SpawnedModel> used = new List<SpawnedModel>();
@@ -162,136 +157,150 @@ public class ModelRandomizer : Randomizer
     bool SpawnModel(GameObject prefab)
     {
         float scale = Random.Range(scaleMin, scaleMax);
-        float worldRadius = 0.5f * scale * radiusCorrection;
-
-        Vector3 worldPos = Vector3.zero;
-        Vector2 screenPos = Vector2.zero;
-        float screenRadius = 0;
-
-        int attempts = 0;
-        bool positionFound = false;
         int maxAttempts = 100;
 
-        do
+        for (int attempts = 0; attempts < maxAttempts; attempts++)
         {
-            attempts++;
             Vector2 vp = new Vector2(
                 Random.Range(0.1f, 0.9f),
                 Random.Range(0.1f, 0.9f)
             );
-
             float dist = Random.Range(spawnDistMin, spawnDistMax);
-            worldPos = cam.ViewportToWorldPoint(new Vector3(vp.x, vp.y, dist));
-            screenPos = cam.WorldToScreenPoint(worldPos);
+            Vector3 worldPos = cam.ViewportToWorldPoint(new Vector3(vp.x, vp.y, dist));
 
-            Vector3 edgePointWorld = worldPos + cam.transform.right * worldRadius;
-            Vector2 edgePointScreen = cam.WorldToScreenPoint(edgePointWorld);
-
-            screenRadius = Vector2.Distance(screenPos, edgePointScreen);
-
-            if (!IsVisuallyOverlapping(screenPos, screenRadius))
-            {
-                positionFound = true;
-            }
-
-        } while (!positionFound && attempts < maxAttempts);
-
-        if (positionFound)
-        {
-            used.Add(new SpawnedModel { screenPos = screenPos, screenRadius = screenRadius });
-
-            // Spawn with the prefab's own rotation preserved (e.g., X=-90 Y=90 for upright models)
-            GameObject Model = GameObject.Instantiate(prefab, worldPos, prefab.transform.rotation);
-
-            Model.transform.localScale = Vector3.one * scale;
-
-            // ---------------------------------------------------------
-            // ROTASYON MANTIĞI: Rastgele rotasyon, prefab'ın base euler açılarına doğrudan EKLENİR
-            // ---------------------------------------------------------
+            // Pre-calculate final rotation so bounds check uses the real orientation
             float rotX = Random.Range(minRotationX, maxRotationX);
             float rotY = Random.Range(minRotationY, maxRotationY);
             float rotZ = Random.Range(minRotationZ, maxRotationZ);
-
-            // Prefab'ın base euler açılarını al ve rastgele değerleri üzerine topla
             Vector3 baseEuler = prefab.transform.eulerAngles;
-            Model.transform.rotation = Quaternion.Euler(
-                baseEuler.x + rotX,
-                baseEuler.y + rotY,
-                baseEuler.z + rotZ
-            );
-            // ---------------------------------------------------------
+            Quaternion finalRotation = Quaternion.Euler(baseEuler.x + rotX, baseEuler.y + rotY, baseEuler.z + rotZ);
 
-            Renderer parentRenderer = Model.GetComponent<Renderer>();
-            if (parentRenderer != null)
+            // Spawn with final transform so Renderer.bounds reflects real screen footprint
+            GameObject Model = GameObject.Instantiate(prefab, worldPos, finalRotation);
+            Model.transform.localScale = Vector3.one * scale;
+
+            Rect screenRect = GetScreenRect(Model);
+
+            if (!IsVisuallyOverlapping(screenRect))
             {
-                Material parentMat = parentRenderer.material;
+                used.Add(new SpawnedModel { screenRect = screenRect });
 
-                if (parentUseWhiteTones)
+                Renderer parentRenderer = Model.GetComponent<Renderer>();
+                if (parentRenderer != null)
                 {
-                    float baseWhite = Random.Range(0.85f, 1.0f);
-                    float rVariation = Random.Range(-0.05f, 0.05f);
-                    float gVariation = Random.Range(-0.05f, 0.05f);
-                    float bVariation = Random.Range(-0.05f, 0.05f);
-                    parentMat.color = new Color(
-                        Mathf.Clamp01(baseWhite + rVariation),
-                        Mathf.Clamp01(baseWhite + gVariation),
-                        Mathf.Clamp01(baseWhite + bVariation)
-                    );
-                }
-                else
-                {
-                    parentMat.color = parentColors.Evaluate(Random.value);
-                }
+                    Material parentMat = parentRenderer.material;
 
-                if (enableParentMaterialRandomization)
-                {
-                    float roughness = Random.Range(parentRoughnessMin, parentRoughnessMax);
-                    parentMat.SetFloat("_Smoothness", 1f - roughness);
-
-                    float metallic = Random.Range(parentMetallicMin, parentMetallicMax);
-                    parentMat.SetFloat("_Metallic", metallic);
-                }
-
-                createdMaterials.Add(parentMat);
-            }
-
-            Transform childTransform = Model.transform.Find(childObjectName);
-            if (childTransform != null)
-            {
-                Renderer childRenderer = childTransform.GetComponent<Renderer>();
-                if (childRenderer != null)
-                {
-                    Material childMat = childRenderer.material;
-                    childMat.color = childColors.Evaluate(Random.value);
-
-                    if (enableModelMaterialRandomization)
+                    if (parentUseWhiteTones)
                     {
-                        float roughness = Random.Range(ModelRoughnessMin, ModelRoughnessMax);
-                        childMat.SetFloat("_Smoothness", 1f - roughness);
-
-                        float metallic = Random.Range(ModelMetallicMin, ModelMetallicMax);
-                        childMat.SetFloat("_Metallic", metallic);
+                        float baseWhite = Random.Range(0.85f, 1.0f);
+                        float rVariation = Random.Range(-0.05f, 0.05f);
+                        float gVariation = Random.Range(-0.05f, 0.05f);
+                        float bVariation = Random.Range(-0.05f, 0.05f);
+                        parentMat.color = new Color(
+                            Mathf.Clamp01(baseWhite + rVariation),
+                            Mathf.Clamp01(baseWhite + gVariation),
+                            Mathf.Clamp01(baseWhite + bVariation)
+                        );
+                    }
+                    else
+                    {
+                        parentMat.color = parentColors.Evaluate(Random.value);
                     }
 
-                    createdMaterials.Add(childMat);
+                    if (enableParentMaterialRandomization)
+                    {
+                        float roughness = Random.Range(parentRoughnessMin, parentRoughnessMax);
+                        parentMat.SetFloat("_Smoothness", 1f - roughness);
+
+                        float metallic = Random.Range(parentMetallicMin, parentMetallicMax);
+                        parentMat.SetFloat("_Metallic", metallic);
+                    }
+
+                    createdMaterials.Add(parentMat);
                 }
+
+                Transform childTransform = Model.transform.Find(childObjectName);
+                if (childTransform != null)
+                {
+                    Renderer childRenderer = childTransform.GetComponent<Renderer>();
+                    if (childRenderer != null)
+                    {
+                        Material childMat = childRenderer.material;
+                        childMat.color = childColors.Evaluate(Random.value);
+
+                        if (enableModelMaterialRandomization)
+                        {
+                            float roughness = Random.Range(ModelRoughnessMin, ModelRoughnessMax);
+                            childMat.SetFloat("_Smoothness", 1f - roughness);
+
+                            float metallic = Random.Range(ModelMetallicMin, ModelMetallicMax);
+                            childMat.SetFloat("_Metallic", metallic);
+                        }
+
+                        createdMaterials.Add(childMat);
+                    }
+                }
+
+                spawned.Add(Model);
+                return true;
             }
 
-            spawned.Add(Model);
-            return true;
+            // Position causes overlap — discard and retry
+            GameObject.Destroy(Model);
         }
 
         return false;
     }
 
-    bool IsVisuallyOverlapping(Vector2 candidatePos, float candidateRadius)
+    Rect GetScreenRect(GameObject obj)
     {
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+        if (renderers.Length == 0) return Rect.zero;
+
+        Bounds worldBounds = renderers[0].bounds;
+        for (int i = 1; i < renderers.Length; i++)
+            worldBounds.Encapsulate(renderers[i].bounds);
+
+        // Project all 8 corners of the world bounding box to screen space
+        Vector3 mn = worldBounds.min;
+        Vector3 mx = worldBounds.max;
+        Vector3[] corners = new Vector3[]
+        {
+            new Vector3(mn.x, mn.y, mn.z), new Vector3(mn.x, mn.y, mx.z),
+            new Vector3(mn.x, mx.y, mn.z), new Vector3(mn.x, mx.y, mx.z),
+            new Vector3(mx.x, mn.y, mn.z), new Vector3(mx.x, mn.y, mx.z),
+            new Vector3(mx.x, mx.y, mn.z), new Vector3(mx.x, mx.y, mx.z),
+        };
+
+        float minX = float.MaxValue, minY = float.MaxValue;
+        float maxX = float.MinValue, maxY = float.MinValue;
+
+        foreach (var corner in corners)
+        {
+            Vector3 sp = cam.WorldToScreenPoint(corner);
+            if (sp.z < 0) continue; // behind camera
+            if (sp.x < minX) minX = sp.x;
+            if (sp.y < minY) minY = sp.y;
+            if (sp.x > maxX) maxX = sp.x;
+            if (sp.y > maxY) maxY = sp.y;
+        }
+
+        return new Rect(minX, minY, maxX - minX, maxY - minY);
+    }
+
+    bool IsVisuallyOverlapping(Rect candidateRect)
+    {
+        // Expand candidate rect by separationPadding to enforce minimum gap
+        float ex = candidateRect.width  * (separationPadding - 1f) * 0.5f;
+        float ey = candidateRect.height * (separationPadding - 1f) * 0.5f;
+        Rect expanded = new Rect(
+            candidateRect.x - ex, candidateRect.y - ey,
+            candidateRect.width + 2f * ex, candidateRect.height + 2f * ey
+        );
+
         foreach (var b in used)
         {
-            float dist = Vector2.Distance(b.screenPos, candidatePos);
-            float minSeparation = (b.screenRadius + candidateRadius) * separationPadding;
-
-            if (dist < minSeparation)
+            if (expanded.Overlaps(b.screenRect))
                 return true;
         }
         return false;

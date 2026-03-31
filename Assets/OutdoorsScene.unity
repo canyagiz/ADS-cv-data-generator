@@ -648,22 +648,22 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[3679072889937592320].maxCount
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[3679072889937592320].minCount
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[3679072889937592320].scaleMax
-      value: 150
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[3679072889937592320].scaleMin
-      value: 150
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -698,7 +698,7 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[951100746037723173].collapsed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -843,7 +843,7 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[3679072889937592320].spawnDistMax
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -1373,7 +1373,7 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[3679072889937592320].radiusCorrection
-      value: 0.05
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -1403,7 +1403,7 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[3679072889937592320].separationPadding
-      value: 0.9
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -2098,7 +2098,7 @@ PrefabInstance:
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[3679072889937592320].ModelPrefabs.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
@@ -2194,25 +2194,25 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[3679072889937592320].ModelPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 3436733691025090758, guid: cef09d9611e800f4eb4533af3feaf5b6,
+      objectReference: {fileID: 857920081162356510, guid: 9cf5c2158af21644b959622581593fc8,
         type: 3}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[3679072889937592320].ModelPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 5349378205140266027, guid: bf29d28e907f7484db745bbf80990d4e,
+      objectReference: {fileID: 4832421800340154657, guid: ead89206a4e9a1a42a9e1bc2bda7ecb1,
         type: 3}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[3679072889937592320].ModelPrefabs.Array.data[2]
       value: 
-      objectReference: {fileID: 3676919075081331274, guid: dc371010ff093fd40bc43a2d3a71e99f,
+      objectReference: {fileID: 6783124781809501456, guid: 00cd2ec1416497849b8b8ac7d41ae35f,
         type: 3}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
       propertyPath: managedReferences[3679072889937592320].ModelPrefabs.Array.data[3]
       value: 
-      objectReference: {fileID: 5495503677328490381, guid: 06b43e5adedb4224fbd0963408cf83fc,
+      objectReference: {fileID: 5267214844023609053, guid: 92e4cab9e286f044ebc2a326b41a8181,
         type: 3}
     - target: {fileID: 5410182099698278935, guid: cad136714281a45408b26fbe3e063b1f,
         type: 3}
